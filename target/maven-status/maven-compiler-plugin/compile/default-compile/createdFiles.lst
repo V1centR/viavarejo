@@ -1,3 +1,5 @@
 br/com/viavar/controller/ProductController.class
+br/com/viavar/model/Produto.class
 br/com/viavar/ServletInitializer.class
+br/com/viavar/model/Pagamento.class
 br/com/viavar/ViavarejoApplication.class
