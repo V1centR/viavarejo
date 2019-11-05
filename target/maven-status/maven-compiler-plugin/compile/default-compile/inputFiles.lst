@@ -1,2 +1,3 @@
-/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/viavar/ViavarejoApplication.java
-/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/viavar/ServletInitializer.java
+/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/ViavarejoApplication.java
+/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/controller/ProductController.java
+/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/ServletInitializer.java

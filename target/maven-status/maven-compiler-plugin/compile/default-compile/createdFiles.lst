@@ -1,2 +1,3 @@
-br/com/viavar/viavar/ServletInitializer.class
-br/com/viavar/viavar/ViavarejoApplication.class
+br/com/viavar/controller/ProductController.class
+br/com/viavar/ServletInitializer.class
+br/com/viavar/ViavarejoApplication.class
