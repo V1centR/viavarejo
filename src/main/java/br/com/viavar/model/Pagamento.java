@@ -6,7 +6,6 @@ public class Pagamento {
 	public Double valorEntrada;
 	public Integer qtdeParcelas;
 	
-	
 	public Double getValorEntrada() {
 		return valorEntrada;
 	}

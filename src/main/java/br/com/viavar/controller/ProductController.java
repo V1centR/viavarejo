@@ -1,6 +1,8 @@
 package br.com.viavar.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +37,7 @@ public class ProductController {
 		Pagamento condicaoPagamento = objectMapper.readValue(jsonItem.get("condicaoPagamento").toString(), Pagamento.class);
 
 
-		System.out.println("Request ok#### " + produto.nome);		
+		System.out.println("Request ok#### " + produto.nome);
 			
 		CalcItem calcular = new CalcItem();
 		calcular.parcela(produto.getValor(), condicaoPagamento.getQtdeParcelas(), condicaoPagamento.getValorEntrada());
@@ -43,9 +45,5 @@ public class ProductController {
 		return "test ok";
 	}
 	
-	
-//	protected Produto setProdutoObject(String dataItem) throws IOException {
-//		
-//	}
 	
 }
