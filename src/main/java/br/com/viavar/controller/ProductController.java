@@ -2,7 +2,6 @@ package br.com.viavar.controller;
 
 import java.io.IOException;
 
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.viavar.model.Pagamento;
 import br.com.viavar.model.Produto;
+import br.com.viavar.repo.CalcItem;
 
 @RestController
 @RequestMapping(value="/api/produto")
@@ -27,7 +27,7 @@ public class ProductController {
 	public @ResponseBody String calcProduto(@RequestBody String dataItem) throws JsonParseException, JsonMappingException, IOException{
 
 
-		//Estract Json nodes
+		//Extract Json nodes
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonItem = objectMapper.readTree(dataItem);
 		
@@ -35,14 +35,10 @@ public class ProductController {
 		Pagamento condicaoPagamento = objectMapper.readValue(jsonItem.get("condicaoPagamento").toString(), Pagamento.class);
 
 
-		System.out.println("Request ok#### " + produto.nome);
-		
-		
-		
-		
-//		
-		//CalcItem calcular = new CalcItem();
-//		calcular.parcela(produto.getDouble(""), numParcelas, entradaValue);
+		System.out.println("Request ok#### " + produto.nome);		
+			
+		CalcItem calcular = new CalcItem();
+		calcular.parcela(produto.getValor(), condicaoPagamento.getQtdeParcelas(), condicaoPagamento.getValorEntrada());
 		
 		return "test ok";
 	}

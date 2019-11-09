@@ -4,7 +4,7 @@ public class Pagamento {
 	
 	
 	public Double valorEntrada;
-	public Double qtdeParcelas;
+	public Integer qtdeParcelas;
 	
 	
 	public Double getValorEntrada() {
@@ -13,10 +13,10 @@ public class Pagamento {
 	public void setValorEntrada(Double valorEntrada) {
 		this.valorEntrada = valorEntrada;
 	}
-	public Double getQtdeParcelas() {
+	public Integer getQtdeParcelas() {
 		return qtdeParcelas;
 	}
-	public void setQtdeParcelas(Double qtdeParcelas) {
+	public void setQtdeParcelas(Integer qtdeParcelas) {
 		this.qtdeParcelas = qtdeParcelas;
 	}
 	
