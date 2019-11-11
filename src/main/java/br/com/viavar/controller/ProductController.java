@@ -1,8 +1,6 @@
 package br.com.viavar.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +13,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import br.com.viavar.model.Pagamento;
 import br.com.viavar.model.Produto;
@@ -26,8 +25,7 @@ public class ProductController {
 	
 	@CrossOrigin
 	@PostMapping(path="/calc",consumes = "application/json", produces = "application/json")
-	public @ResponseBody String calcProduto(@RequestBody String dataItem) throws JsonParseException, JsonMappingException, IOException{
-
+	public @ResponseBody ArrayNode calcProduto(@RequestBody String dataItem) throws JsonParseException, JsonMappingException, IOException{
 
 		//Extract Json nodes
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -35,14 +33,18 @@ public class ProductController {
 		
 		Produto produto 			= objectMapper.readValue(jsonItem.get("produto").toString(), Produto.class);
 		Pagamento condicaoPagamento = objectMapper.readValue(jsonItem.get("condicaoPagamento").toString(), Pagamento.class);
-
-
-		System.out.println("Request ok#### " + produto.nome);
 			
 		CalcItem calcular = new CalcItem();
-		calcular.parcela(produto.getValor(), condicaoPagamento.getQtdeParcelas(), condicaoPagamento.getValorEntrada());
 		
-		return "test ok";
+		calcular.getBcbSelic();
+		ArrayNode responseData = calcular.parcela(
+				produto.getValor(), 
+				condicaoPagamento.getQtdeParcelas(), 
+				condicaoPagamento.getValorEntrada());
+		
+	
+		
+		return responseData;
 	}
 	
 	
