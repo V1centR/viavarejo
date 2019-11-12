@@ -1,6 +1,11 @@
 package br.com.viavar.controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +47,21 @@ public class ProductController {
 				condicaoPagamento.getQtdeParcelas(), 
 				condicaoPagamento.getValorEntrada());
 		
-	
+		
+		//TEstes de data ################
+		
+		LocalDateTime localDate = LocalDateTime.now();		
+		String localDateString = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		
+		DateTime dataFinal = new DateTime(localDateString);
+		
+		DateTime result = dataFinal.minusDays(30);
+		
+		//int days = Days.daysBetween(dataInicio, dataFinal).getDays();		
+		//System.out.println("Days between dates:: " + days);
+		
+		System.out.println("Date 30 days ago:: " + result.toString());
 		
 		return responseData;
 	}

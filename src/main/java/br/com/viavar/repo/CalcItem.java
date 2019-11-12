@@ -2,6 +2,7 @@ package br.com.viavar.repo;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -28,8 +29,7 @@ public class CalcItem {
 		parcelasValue = precoEntrada/numParcelas;		
 		parcelaItem = precoEntrada/parcelasValue;
 		
-		
-		if(numParcelas > 6) {
+		if(numParcelas >= 6) {
 			System.out.println("Parcelas:  " + setProdutoObject().toString());
 		}else {
 			System.out.println("Parcelamento sem juros!");
@@ -44,6 +44,31 @@ public class CalcItem {
 	}
 	
 	/*
+	 * Get time to calc. 
+	 */
+	protected String setDays() {
+		
+		
+		
+		
+		return null;
+	}
+	
+	
+	/*
+	 * Method format date
+	 */
+	public ObjectNode getTime() {
+		
+		LocalDateTime localDate = LocalDateTime.now();
+		
+		
+		
+		
+		return null;
+	}
+	
+	/*
 	 * Method generate json object
 	 */
 	protected ArrayNode setProdutoObject() throws IOException {
@@ -53,13 +78,17 @@ public class CalcItem {
 		ObjectMapper jsonObj = new ObjectMapper();
 		ArrayNode arrayNode = jsonObj.createArrayNode();
 		
-		for(int i = 1; i<parcelaItem;i++) {
+		for(int i = 1; i<=parcelaItem;i++) {
 			
 			ObjectNode objNode = jsonObj.createObjectNode();
 			
 			objNode.put("numeroParcela", i);
 			objNode.put("valor", dformat.format(applyInstallments(parcelasValue,jurosMes)));
 			objNode.put("taxaJurosAoMes", jurosMes);
+			
+			
+			
+			//set item into array node
 			arrayNode.add(objNode);
 		}
 		
@@ -73,14 +102,10 @@ public class CalcItem {
 	
 	public String getBcbSelic() {
 		
-		final String bcbService = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json";
+		final String bcbService = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial=12/10/2019&dataFinal=12/11/2019";
 		
 		RestTemplate restTemplate = new RestTemplate();
-	    String result = restTemplate.getForObject(bcbService, String.class);
-	    
-	   
-	     
-	    
+	    String result = restTemplate.getForObject(bcbService, String.class);	    
 	    
 	    System.out.println(result);
 		
