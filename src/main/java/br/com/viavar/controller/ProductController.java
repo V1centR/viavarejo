@@ -28,6 +28,10 @@ import br.com.viavar.repo.CalcItem;
 @RequestMapping(value="/api/produto")
 public class ProductController {
 	
+	private Double selicAccul = 0.0;
+	private int daysPeriod = 30;
+	
+	
 	@CrossOrigin
 	@PostMapping(path="/calc",consumes = "application/json", produces = "application/json")
 	public @ResponseBody ArrayNode calcProduto(@RequestBody String dataItem) throws JsonParseException, JsonMappingException, IOException{
@@ -42,26 +46,12 @@ public class ProductController {
 		CalcItem calcular = new CalcItem();
 		
 		calcular.getBcbSelic();
+		
 		ArrayNode responseData = calcular.parcela(
 				produto.getValor(), 
 				condicaoPagamento.getQtdeParcelas(), 
 				condicaoPagamento.getValorEntrada());
 		
-		
-		//TEstes de data ################
-		
-		LocalDateTime localDate = LocalDateTime.now();		
-		String localDateString = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		
-		
-		DateTime dataFinal = new DateTime(localDateString);
-		
-		DateTime result = dataFinal.minusDays(30);
-		
-		//int days = Days.daysBetween(dataInicio, dataFinal).getDays();		
-		//System.out.println("Days between dates:: " + days);
-		
-		System.out.println("Date 30 days ago:: " + result.toString());
 		
 		return responseData;
 	}

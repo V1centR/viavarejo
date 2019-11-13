@@ -2,15 +2,21 @@ package br.com.viavar.repo;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
+import org.joda.time.DateTime;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import br.com.viavar.model.SelicData;
 
 public class CalcItem {
 	
@@ -18,29 +24,21 @@ public class CalcItem {
 	private Double precoEntrada = 0.0;
 	private Double parcelaItem = 0.0;
 	public List<String> parcelas;
+	public Double selicAccm = 0.0;
+	private Double valueBkp = 0.0;
 	
 	//Apply dynamic installments
 	private Double jurosMes = 1.15;
+	private ObjectNode objNode;
 	
 	
 	public ArrayNode parcela(Double preco, Integer numParcelas, Double entradaValue) throws IOException {
 	
 		precoEntrada = preco-entradaValue;		
 		parcelasValue = precoEntrada/numParcelas;		
-		parcelaItem = precoEntrada/parcelasValue;
+		parcelaItem = precoEntrada/parcelasValue;	
 		
-		if(numParcelas >= 6) {
-			System.out.println("Parcelas:  " + setProdutoObject().toString());
-		}else {
-			System.out.println("Parcelamento sem juros!");
-		}
-		
-		System.out.println("preco - entrada = " + precoEntrada);
-		System.out.println("Valor das parcelas:: " + parcelasValue);
-		System.out.println("Quantidade da parcelas:: " + Math.round(parcelaItem));
-		
-		
-		return setProdutoObject();
+		return setProdutoObject(numParcelas);
 	}
 	
 	/*
@@ -56,40 +54,53 @@ public class CalcItem {
 	
 	
 	/*
-	 * Method format date
-	 */
-	public ObjectNode getTime() {
-		
-		LocalDateTime localDate = LocalDateTime.now();
-		
-		
-		
-		
-		return null;
-	}
-	
-	/*
 	 * Method generate json object
 	 */
-	protected ArrayNode setProdutoObject() throws IOException {
+	protected ArrayNode setProdutoObject(int numParcelas) throws IOException {
 		
 		DecimalFormat dformat = new DecimalFormat("####0.00");
 		
 		ObjectMapper jsonObj = new ObjectMapper();
 		ArrayNode arrayNode = jsonObj.createArrayNode();
 		
+		SelicData[] selictObj = jsonObj.readValue(getBcbSelic(),SelicData[].class);
+		
+		//Sum Selic last 30 days
+		for(SelicData valor: selictObj) {
+			
+			if(Math.abs(valor.getValor() - valueBkp) >= 0.000001) {
+				System.out.println("VALUE to SUM:: " + valor.getValor());
+				selicAccm += valor.getValor();
+				valueBkp = valor.getValor();
+			}
+		}
+		
+		System.out.println("Selic Acumulada::: " + selicAccm);
+		
+		if(numParcelas <7) {
+			jurosMes = 0.0;
+		}
+	
+		
 		for(int i = 1; i<=parcelaItem;i++) {
 			
-			ObjectNode objNode = jsonObj.createObjectNode();
+			objNode = jsonObj.createObjectNode();
 			
 			objNode.put("numeroParcela", i);
 			objNode.put("valor", dformat.format(applyInstallments(parcelasValue,jurosMes)));
 			objNode.put("taxaJurosAoMes", jurosMes);
-			
-			
-			
 			//set item into array node
 			arrayNode.add(objNode);
+			
+			
+			if(i == parcelaItem) {
+				ObjectNode selicNode = jsonObj.createObjectNode();
+				selicNode.put("description", "Taxa Selic acumulada base 30 dias");
+				selicNode.put("selicAcumulada", selicAccm);
+				arrayNode.add(selicNode);
+			}
+			
+			
 		}
 		
 		return arrayNode;
@@ -102,15 +113,24 @@ public class CalcItem {
 	
 	public String getBcbSelic() {
 		
-		final String bcbService = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial=12/10/2019&dataFinal=12/11/2019";
+		LocalDateTime localDate = LocalDateTime.now();
+		String localDateString = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		DateTime dataFinal = new DateTime(localDateString);
+		DateTime retroDate = dataFinal.minusDays(30);
+		
+		Date startDateJava = new Date();
+		Format f = new SimpleDateFormat("dd/MM/yyyy");
+		
+	    String startDate = f.format(startDateJava);
+	    String endDate = f.format(retroDate.toDate());
+		
+		final String bcbService = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados?formato=json&dataInicial="+ endDate +"&dataFinal=" + startDate +"";
 		
 		RestTemplate restTemplate = new RestTemplate();
-	    String result = restTemplate.getForObject(bcbService, String.class);	    
-	    
-	    System.out.println(result);
+	    String result = restTemplate.getForObject(bcbService, String.class);
 		
-		
-		return null;
+		return result;
 	}
 
 }

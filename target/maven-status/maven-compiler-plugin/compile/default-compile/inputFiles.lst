@@ -2,5 +2,6 @@
 /home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/model/Pagamento.java
 /home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/repo/CalcItem.java
 /home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/ViavarejoApplication.java
+/home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/model/SelicData.java
 /home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/controller/ProductController.java
 /home/vicent/eclipse-workspace/viavarejo/src/main/java/br/com/viavar/ServletInitializer.java

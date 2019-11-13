@@ -1,4 +1,5 @@
 br/com/viavar/model/Produto.class
+br/com/viavar/model/SelicData.class
 br/com/viavar/controller/ProductController.class
 br/com/viavar/repo/CalcItem.class
 br/com/viavar/ServletInitializer.class
