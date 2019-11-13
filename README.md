@@ -5,13 +5,13 @@
 - Developer vicentcdb@gmail.com.
 
 
-###Running this project:
+### Running this project:
 - Clone this project with: https://github.com/V1centR/viavarejo.git
 - Run: <b>mvn clean install</b>
 - Run: <b>mvn spring-boot:run</b>
 - In your REST client "Postman" use this endpoint: POST http://127.0.0.1:8080/api/produto/calc
 
-###Request example:
+### Request example:
 ```
 // POST http://127.0.0.1:8080/api/produto/calc
 {
@@ -27,7 +27,7 @@
 }
 ```
 
-###Response example:
+### Response example:
 ```
 [
     {
