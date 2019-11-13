@@ -1,7 +1,7 @@
 ### Features
 
 - API REST return list of financing installments with interests Selic rate.
-- API wiht Swagger in atachment for test support.
+- API with Swagger in atachment for test support.
 - Developer vicentcdb@gmail.com.
 
 
@@ -11,9 +11,16 @@
 - Run: <b>mvn spring-boot:run</b>
 - In your REST client "Postman" use this endpoint: POST http://127.0.0.1:8080/api/produto/calc
 
+### Running this project JAVA:
+- Clone this project with: https://github.com/V1centR/viavarejo.git
+- Run: <b>mvn clean install</b>
+- Run: java -jar target/viavar-0.0.1-SNAPSHOT.war
+- In your REST client "Postman" use this endpoint: POST http://127.0.0.1:8080/api/produto/calc
+
+
 ### Request example:
 ```
-// POST http://127.0.0.1:8080/api/produto/calc
+// http://127.0.0.1:8080/api/produto/calc
 {
    "produto": {
       "codigo": 8888,
@@ -71,4 +78,3 @@
     }
 ]
 ```
-
