@@ -1,11 +1,6 @@
 package br.com.viavar.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +23,6 @@ import br.com.viavar.repo.CalcItem;
 @RequestMapping(value="/api/produto")
 public class ProductController {
 	
-	private Double selicAccul = 0.0;
-	private int daysPeriod = 30;
-	
-	
 	@CrossOrigin
 	@PostMapping(path="/calc",consumes = "application/json", produces = "application/json")
 	public @ResponseBody ArrayNode calcProduto(@RequestBody String dataItem) throws JsonParseException, JsonMappingException, IOException{
@@ -51,7 +42,6 @@ public class ProductController {
 				produto.getValor(), 
 				condicaoPagamento.getQtdeParcelas(), 
 				condicaoPagamento.getValorEntrada());
-		
 		
 		return responseData;
 	}

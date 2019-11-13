@@ -42,18 +42,6 @@ public class CalcItem {
 	}
 	
 	/*
-	 * Get time to calc. 
-	 */
-	protected String setDays() {
-		
-		
-		
-		
-		return null;
-	}
-	
-	
-	/*
 	 * Method generate json object
 	 */
 	protected ArrayNode setProdutoObject(int numParcelas) throws IOException {
@@ -80,7 +68,6 @@ public class CalcItem {
 		if(numParcelas <7) {
 			jurosMes = 0.0;
 		}
-	
 		
 		for(int i = 1; i<=parcelaItem;i++) {
 			
